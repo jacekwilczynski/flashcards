@@ -1,14 +1,8 @@
-// zależność od CSSa (JS musi wiedzieć, jakie klasy w CSSie pomogą osiągnąć zamierzony efekt)
-const HIDDEN_CLASS = 'visually-hidden'
-const ANIMATION_CLASS = 'flip-animation'
-
 class Flashcard {
     constructor(root) {
         this.root = root
-
-        // zależność od struktury HTML; gdyby zamienić to na wyławianie po klasie, byłaby zależność od klasy
-        this.currentFront = root.firstElementChild
-        this.currentBack = root.lastElementChild
+        this.currentFront = root.querySelector('[data-flashcard=front]')
+        this.currentBack = root.querySelector('[data-flashcard=back]')
     }
 
     init() {
@@ -18,7 +12,7 @@ class Flashcard {
     }
 
     flip() {
-        this.root.classList.add(ANIMATION_CLASS)
+        this.root.classList.add(this._animationClass)
     }
 
     _onHalfwayThroughFlip() {
@@ -28,12 +22,12 @@ class Flashcard {
     }
 
     _onFlipDone() {
-        this.root.classList.remove(ANIMATION_CLASS)
+        this.root.classList.remove(this._animationClass)
     }
 
     _toggleVisibility() {
-        this.currentFront.classList.add(HIDDEN_CLASS)
-        this.currentBack.classList.remove(HIDDEN_CLASS)
+        this.currentFront.classList.add(this._hiddenClass)
+        this.currentBack.classList.remove(this._hiddenClass)
     }
 
     _swapSideReferences() {
@@ -43,7 +37,7 @@ class Flashcard {
     }
 
     _playRecording() {
-        const url = this.currentFront.dataset.recording
+        const url = this.currentFront.dataset.flashcardRecording
 
         if (url == null) {
             return
@@ -51,10 +45,16 @@ class Flashcard {
 
         new Audio(url).play()
     }
+
+    get _animationClass() {
+        return this.root.dataset.flashcardAnimationClass
+    }
+
+    get _hiddenClass() {
+        return this.root.dataset.flashcardHiddenClass
+    }
 }
 
 document
-    // zależność od HTMLa; można ją uczynić bardziej explicit stosując przedrostek "js-" w nazwie klasy, choć wtedy możnaby powiedzieć, że jeszcze HTML zacznie zależeć od JS-a...
-    // anyway, znana powszechnie konwencja: stylujemy raczej po klasach; JS szuka elementów po id lub data attributes, ew. klasach js-*
-    .querySelectorAll('.flashcard')
+    .querySelectorAll('[data-flashcard=root]')
     .forEach(element => new Flashcard(element).init())
