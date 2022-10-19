@@ -1,0 +1,21 @@
+$skalowanie: 0.5;
+
+.flashcard {
+    // sizing
+    width: 21rem * $skalowanie;
+    height: 37rem * $skalowanie;
+    padding: 1rem;
+
+    // content layout
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    // look & feel
+    border-radius: 1.488px;
+    box-shadow: 1px 1px 7px black;
+    background-color: mix(papayawhip, white, 25%);
+
+    // interaction
+    cursor: pointer;
+}
