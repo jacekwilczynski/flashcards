@@ -1,18 +1,19 @@
 class Flashcard {
-    constructor(root) {
-        this.root = root
-        this.currentFront = root.querySelector('[data-flashcard=front]')
-        this.currentBack = root.querySelector('[data-flashcard=back]')
+    constructor({ rootElement, front, back, classes }) {
+        this.rootElement = rootElement
+        this.currentFront = front
+        this.currentBack = back
+        this.classes = classes
     }
 
     init() {
-        this.root.addEventListener('click', () => this.flip())
-        this.root.addEventListener('animationiteration', () => this._onHalfwayThroughFlip())
-        this.root.addEventListener('animationend', () => this._onFlipDone())
+        this.rootElement.addEventListener('click', () => this.flip())
+        this.rootElement.addEventListener('animationiteration', () => this._onHalfwayThroughFlip())
+        this.rootElement.addEventListener('animationend', () => this._onFlipDone())
     }
 
     flip() {
-        this.root.classList.add(this._animationClass)
+        this.rootElement.classList.add(this.classes.animation)
     }
 
     _onHalfwayThroughFlip() {
@@ -22,12 +23,12 @@ class Flashcard {
     }
 
     _onFlipDone() {
-        this.root.classList.remove(this._animationClass)
+        this.rootElement.classList.remove(this.classes.animation)
     }
 
     _toggleVisibility() {
-        this.currentFront.classList.add(this._hiddenClass)
-        this.currentBack.classList.remove(this._hiddenClass)
+        this.currentFront.element.classList.add(this.classes.hidden)
+        this.currentBack.element.classList.remove(this.classes.hidden)
     }
 
     _swapSideReferences() {
@@ -37,7 +38,7 @@ class Flashcard {
     }
 
     _playRecording() {
-        const url = this.currentFront.dataset.flashcardRecording
+        const url = this.currentFront.recording
 
         if (url == null) {
             return
@@ -45,16 +46,32 @@ class Flashcard {
 
         new Audio(url).play()
     }
-
-    get _animationClass() {
-        return this.root.dataset.flashcardAnimationClass
-    }
-
-    get _hiddenClass() {
-        return this.root.dataset.flashcardHiddenClass
-    }
 }
 
+// możnaby zrobić oddzielną klasę np. FlashcardInitializer (zawierającą cały poniższy kod) albo
+// FlashcardFactory (zawierającą tylko tworzenie pojedynczego obiektu Flashcard na podstawie rootElement);
+// zamiast klas mogłyby być też po prostu funkcje (za dużo opcji ten JS daje...)
 document
     .querySelectorAll('[data-flashcard=root]')
-    .forEach(element => new Flashcard(element).init())
+    .forEach(rootElement => {
+        const frontElement = rootElement.querySelector('[data-flashcard=front]')
+        const backElement = rootElement.querySelector('[data-flashcard=back]')
+
+        const flashcard = new Flashcard({
+            rootElement,
+            front: {
+                element: frontElement,
+                recording: frontElement.dataset.flashcardRecording,
+            },
+            back: {
+                element: backElement,
+                recording: backElement.dataset.flashcardRecording,
+            },
+            classes: {
+                animation: rootElement.dataset.flashcardAnimationClass,
+                hidden: rootElement.dataset.flashcardHiddenClass,
+            }
+        })
+
+        flashcard.init()
+    })
