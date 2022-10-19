@@ -4,87 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flashcards</title>
-    <link rel="stylesheet" href="build/app.css">
-    <script src="build/app.js" defer></script>
+    <link rel="stylesheet" href="build/main.css">
+    <script src="build/main.js" defer></script>
 </head>
 <body>
-<div class="flashcard-row">
-
-    <div class="flashcard-row-item">
-        <!-- recording mógłby być nadal jako data attribute na konkretnej stronie (front/back), ale wtedy nie użylibyśmy abstrakcji "values" od Stimulusa -->
-        <!-- zamiast przez `data-action` podpinanie eventów możnaby też zrobić normalnie, w metodzie `connect` kontrolera -->
-        <div
-            class="flashcard"
-            data-controller="flashcard"
-            data-flashcard-animation-class-value="flip-animation"
-            data-flashcard-hidden-class-value="visually-hidden"
-            data-flashcard-back-recording-value="http://vaticandeathcamps.org/zadnej dobrej sztuki nie napisales.mp3"
-            data-action="click->flashcard#flip animationiteration->flashcard#onHalfwayThroughFlip animationend->flashcard#onFlipDone"
-        >
-            <div data-flashcard-target="front">
-                Jak miał na imię Adam Mickiewicz?
-            </div>
-            <div class="visually-hidden" data-flashcard-target="back">
-                Stanisław Ignacy
-            </div>
-        </div>
-    </div>
-
-    <div class="flashcard-row-item">
-        <div
-            class="flashcard"
-            data-controller="flashcard"
-            data-flashcard-animation-class-value="flip-animation"
-            data-flashcard-hidden-class-value="visually-hidden"
-            data-flashcard-front-recording-value="http://vaticandeathcamps.org/jak pan jezus powiedzial.mp3"
-            data-flashcard-back-recording-value="http://vaticandeathcamps.org/tak jak pan jezus powiedzial.mp3"
-            data-action="click->flashcard#flip animationiteration->flashcard#onHalfwayThroughFlip animationend->flashcard#onFlipDone"
-        >
-            <div data-flashcard-target="front">
-                Co robił Jan Paweł Drugi?
-            </div>
-            <div class="visually-hidden" data-flashcard-target="back">
-                Gwałcił Małe Dzieci
-            </div>
-        </div>
-    </div>
-
-    <div class="flashcard-row-item">
-        <div
-            class="flashcard"
-            data-controller="flashcard"
-            data-flashcard-animation-class-value="flip-animation"
-            data-flashcard-hidden-class-value="visually-hidden"
-            data-flashcard-back-recording-value="http://vaticandeathcamps.org/fajnie.mp3"
-            data-action="click->flashcard#flip animationiteration->flashcard#onHalfwayThroughFlip animationend->flashcard#onFlipDone"
-        >
-            <div data-flashcard-target="front">
-                Jak nazywa się drugi pod względem popularności framework webowy do PHP?
-            </div>
-            <div class="visually-hidden" data-flashcard-target="back">
-                Jan Paweł II
-            </div>
-        </div>
-    </div>
-
-    <div class="flashcard-row-item">
-        <div
-            class="flashcard"
-            data-controller="flashcard"
-            data-flashcard-animation-class-value="flip-animation"
-            data-flashcard-hidden-class-value="visually-hidden"
-            data-flashcard-back-recording-value="http://vaticandeathcamps.org/tak.mp3"
-            data-action="click->flashcard#flip animationiteration->flashcard#onHalfwayThroughFlip animationend->flashcard#onFlipDone"
-        >
-            <div data-flashcard-target="front">
-                Wolisz białą czy ciemną czekoladę?
-            </div>
-            <div class="visually-hidden" data-flashcard-target="back">
-                Tak
-            </div>
-        </div>
-    </div>
-
-</div>
+<div id="app"></div>
 </body>
 </html>
