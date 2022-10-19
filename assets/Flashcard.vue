@@ -15,8 +15,7 @@
 </template>
 
 <script setup>
-// magia Vue 3: poniższy pozornie prosty JS zostanie skompilowany na konfigurację komponentu
-import { ref } from 'vue'
+import { defineProps, ref } from 'vue'
 
 const props = defineProps(['front', 'back'])
 
